@@ -22,4 +22,9 @@
   // 🔥 make it available globally
   window.db = db;
   window.firebaseFns = { collection, addDoc, getDocs, deleteDoc, doc, updateDoc };
+   window.firebaseReady = true;
+
+
+<!-- 2. Your JS -->
+<script src="script.js"></script>
 </script>

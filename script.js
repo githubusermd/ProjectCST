@@ -200,7 +200,14 @@ async function deleteTeacher(id) {
   alert("Teacher deleted!");
   loadTeachers();
 }
-window.onload = function () {
+function initApp() {
+  if (!window.firebaseReady) {
+    setTimeout(initApp, 300);
+    return;
+  }
+
   loadStudents();
   loadTeachers();
-};
+}
+
+initApp();
