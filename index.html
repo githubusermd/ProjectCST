@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>College Management</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <h1>Gopalgonj Polytechnic Institute</h1>
+  </div>
+</header>
+
+<nav>
+  <button onclick="showSection('home')">Home</button>
+  <button onclick="showSection('teachers')">Teachers</button>
+  <button onclick="showSection('students')">Students</button>
+  <button onclick="location.href='register.html'">Admin Panel</button>
+</nav>
+
+<div class="container">
+
+  <!-- Home Section -->
+  <div id="home">
+    <h2>Welcome to My College</h2>
+    <p>
+      This is our college website. Here you can find information about our teachers, students, and departments.
+      Our college provides quality education in different departments like CSE, EEE, and more.
+    </p>
+    <p>
+      We have experienced teachers and organized student management by semester, department, shift, and roll number.
+    </p>
+  </div>
+
+
+
+
+
+
+
+
+  
+  <!-- Teachers Section -->
+  <div id="teachers" class="hidden">
+    <h2>Teachers List</h2>
+    <table id="teacherTable">
+      <tr>
+        <th>SL</th>
+        <th>Name</th>
+        <th>Department</th>
+        <th>Number</th>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Students Section -->
+  <div id="students" class="hidden">
+    
+    <h2>Students List</h2>
+
+    <label>Filter:</label>
+
+    <select id="semesterFilter" onchange="filterStudents()">
+      <option value="all">All Semester</option>
+      <option value="1">1st</option>
+      <option value="2">2nd</option>
+    </select>
+    
+    <select id="deptFilter" onchange="filterStudents()">
+      <option value="all">All Department</option>
+      <option value="CSE">CSE</option>
+      <option value="EEE">EEE</option>
+      <option value="ET">ET</option>
+      <option value="FT">FT</option>
+      <option value="RSC">RSC</option>
+    </select>
+
+    <select id="shiftFilter" onchange="filterStudents()">
+      <option value="all">All Shift</option>
+      <option value="Morning">Morning</option>
+      <option value="Evening">Evening</option>
+    </select>
+
+    <!-- Serch Option -->
+    <h3>Serch By Roll :</h3>
+    <input 
+     type="text" 
+     id="searchInput" 
+     placeholder="Search by Name or Roll..."
+      onkeyup="searchStudents()"
+    />
+    <br><br>
+
+
+    <table id="studentTable">
+      <tr>
+        <th>SL</th>
+        <th>Name</th>
+        <th>Roll</th>
+        <th>Semester</th>
+        <th>Department</th>
+        <th>Shift</th>
+      </tr>
+    </table>
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

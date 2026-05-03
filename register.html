@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register Page</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+  <h2>Register (Admin Panel)</h2>
+
+  <label>Select Type:</label>
+  <select id="role" onchange="toggleForm()">
+    <option value="student">Student</option>
+    <option value="teacher">Teacher</option>
+  </select>
+
+  <hr>
+
+  <!-- STUDENT FORM -->
+  <div id="studentForm">
+    <h3>Student Registration</h3>
+
+    <h2>1.Name:</h2>
+    <input type="text" id="sName" placeholder="Name" required><br><br>
+
+    <h2>2.Department :</h2>
+    <select id="sDept" required>
+     <option value="CST">CST</option>
+     <option value="ET">ET</option>
+     <option value="FT">FT</option>
+     <option value="RSC">RSC</option>
+     <option value="ENT">ENT</option>
+    </select><br><br>
+    <h2>3.Shift:</h2>
+    <select id="sShift" required>
+      <option value="Morning">Morning</option>
+     <option value="Evening">Evening</option>
+    </select><br><br>
+
+    <h2>4. Roll:</h2>
+    <input type="number" id="sRoll" placeholder="Roll" min="1" required><br><br>
+    <h2>Semister:</h2>
+    <select id="sSem" required>
+      <option value="1">1st</option>
+      <option value="2">2nd</option>
+      <option value="3">3rd</option>
+      <option value="4">4th</option>
+      <option value="5">5th</option>
+      <option value="6">6th</option>
+      <option value="7">7th</option>
+      <option value="8">8th</option>
+    </select><br><br>
+
+    <button onclick="registerStudent()">Register Student</button>
+  </div>
+
+  <!-- TEACHER FORM -->
+  <div id="teacherForm" style="display:none;">
+    <h3>Teacher Registration</h3>
+
+    <input type="text" id="tName" placeholder="Name"><br><br>
+
+
+    <input type="text" id="tDept" placeholder="Department"><br><br>
+
+    
+    <input type="text" id="tSub" placeholder="Subject"><br><br>
+
+    <button onclick="registerTeacher()">Register Teacher</button>
+  </div>
+
+</div>
+
+<script>
+  const FIXED_PASS = "12345admin";
+
+  // 🔥 FIX 1: toggle form
+  function toggleForm() {
+    let role = document.getElementById("role").value;
+
+    document.getElementById("studentForm").style.display =
+      role === "student" ? "block" : "none";
+
+    document.getElementById("teacherForm").style.display =
+      role === "teacher" ? "block" : "none";
+  }
+
+  // 🔥 Student save
+  function registerStudent() {
+    let pass = prompt("Enter admin password:");
+    if (pass !== FIXED_PASS) return alert("Wrong password!");
+
+    let student = {
+      name: sName.value,
+      dept: sDept.value,
+      shift: sShift.value,
+      roll: sRoll.value,
+      sem: sSem.value
+    };
+
+    let students = JSON.parse(localStorage.getItem("students")) || [];
+    students.push(student);
+    localStorage.setItem("students", JSON.stringify(students));
+
+    alert("Student Saved!");
+  }
+
+  // 🔥 Teacher save (FIXED)
+  function registerTeacher() {
+    let pass = prompt("Enter admin password:");
+    if (pass !== FIXED_PASS) return alert("Wrong password!");
+
+    let teacher = {
+      name: tName.value,
+      dept: tDept.value,
+      subject: tSub.value
+    };
+
+    let teachers = JSON.parse(localStorage.getItem("teachers")) || [];
+    teachers.push(teacher);
+    localStorage.setItem("teachers", JSON.stringify(teachers));
+
+    alert("Teacher Saved!");
+  }
+
+  toggleForm(); // auto init
+</script>
+
+</body>
+</html>

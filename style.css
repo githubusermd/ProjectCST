@@ -1,0 +1,70 @@
+body {
+  font-family: Arial;
+  margin: 0;
+  background: #f4f6f9;
+}
+
+header {
+background: url('images/gpi.jpg') no-repeat center center/cover;
+  color: #fff;
+  padding: 10px 20px;
+  color: #fff;
+  padding: 15px;
+  text-align: center;
+}
+
+
+nav {
+  background: #d1d9e0;
+  padding: 10px;
+  text-align-last: left;
+}
+
+nav button {
+  margin: 5px;
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+  border-radius: 25%;
+}
+
+.auth-btn {
+  background: #27ae60;
+  color: white;
+  margin-left: 10px;
+}
+
+
+.auth-btn:hover {
+  background: #219150;
+}
+
+.container {
+  padding: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+th {
+  background: #2c3e50;
+  color: white;
+}
+
+.hidden {
+  display: none;
+}
+
+select {
+  padding: 8px;
+  margin: 10px 0;
+}
