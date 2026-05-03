@@ -54,7 +54,7 @@
       <option value="8">8th</option>
     </select><br><br>
 
-    <button onclick="registerStudent()">Register Student</button>
+    <button type="button" onclick="registerStudent()">Register Student</button>>
   </div>
 
   <!-- TEACHER FORM -->
@@ -69,7 +69,7 @@
     
     <input type="text" id="tSub" placeholder="Subject"><br><br>
 
-    <button onclick="registerTeacher()">Register Teacher</button>
+    <button type="button" onclick="registerTeacher()">Register Teacher</button>
   </div>
 
 </div>
@@ -89,35 +89,35 @@
   }
 
   // 🔥 Student save
-  async function registerStudent(e) {
-  e.preventDefault();
+ async function registerStudent() {
 
   const { collection, addDoc } = firebaseFns;
 
   await addDoc(collection(db, "students"), {
-    name: sName.value,
-    dept: sDept.value,
-    shift: sShift.value,
-    roll: sRoll.value,
-    sem: sSem.value
+    name: document.getElementById("sName").value,
+    dept: document.getElementById("sDept").value,
+    shift: document.getElementById("sShift").value,
+    roll: document.getElementById("sRoll").value,
+    sem: document.getElementById("sSem").value
   });
 
-  alert("Student saved online!");
+  alert("Student saved!");
+  loadStudents();
 }
 
   // 🔥 Teacher save (FIXED)
-  async function registerTeacher(e) {
-  e.preventDefault();
+ async function registerTeacher() {
 
   const { collection, addDoc } = firebaseFns;
 
   await addDoc(collection(db, "teachers"), {
-    name: tName.value,
-    dept: tDept.value,
-    subject: tSub.value
+    name: document.getElementById("tName").value,
+    dept: document.getElementById("tDept").value,
+    subject: document.getElementById("tSub").value
   });
 
-  alert("Teacher saved online!");
+  alert("Teacher saved!");
+  loadTeachers();
 }
 
   toggleForm(); // auto init

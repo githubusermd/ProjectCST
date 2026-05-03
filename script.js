@@ -23,11 +23,6 @@ function filterStudents() {
   });
 }
 
-window.onload = function () {
-  loadStudents();
-  loadTeachers();
-};
-
 // 🔥 FIXED STUDENT LOAD
 async function loadStudents() {
   const { collection, getDocs } = firebaseFns;
