@@ -54,7 +54,7 @@
       <option value="8">8th</option>
     </select><br><br>
 
-    <button type="button" onclick="registerStudent()">Register Student</button>>
+    <button type="button" onclick="registerStudent()">Register Student</button>
   </div>
 
   <!-- TEACHER FORM -->
@@ -89,8 +89,7 @@
   }
 
   // 🔥 Student save
- async function registerStudent() {
-
+ window.registerStudent = async function () {
   const { collection, addDoc } = firebaseFns;
 
   await addDoc(collection(db, "students"), {
@@ -101,12 +100,12 @@
     sem: document.getElementById("sSem").value
   });
 
-  alert("Student saved!");
+  alert("Saved!");
   loadStudents();
-}
+};
 
   // 🔥 Teacher save (FIXED)
- async function registerTeacher() {
+ window.registerTeacher = async function () {
 
   const { collection, addDoc } = firebaseFns;
 

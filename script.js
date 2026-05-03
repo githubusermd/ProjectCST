@@ -1,3 +1,4 @@
+console.log("JS loaded");
 function showSection(section) {
   document.getElementById('home').classList.add('hidden');
   document.getElementById('teachers').classList.add('hidden');
@@ -200,14 +201,15 @@ async function deleteTeacher(id) {
   alert("Teacher deleted!");
   loadTeachers();
 }
-function initApp() {
+function init() {
   if (!window.firebaseReady) {
-    setTimeout(initApp, 300);
+    setTimeout(init, 200);
     return;
   }
 
+  console.log("Firebase ready");
   loadStudents();
   loadTeachers();
 }
 
-initApp();
+init();
