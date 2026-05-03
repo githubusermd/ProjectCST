@@ -29,8 +29,9 @@ window.onload = function () {
 };
 
 // 🔥 FIXED STUDENT LOAD
-function loadStudents() {
-  let students = JSON.parse(localStorage.getItem("students")) || [];
+async function loadStudents() {
+  const { collection, getDocs } = firebaseFns;
+
   let table = document.getElementById("studentTable");
 
   table.innerHTML = `
@@ -45,32 +46,36 @@ function loadStudents() {
     </tr>
   `;
 
-  students.forEach((s, index) => {
+  const querySnapshot = await getDocs(collection(db, "students"));
+
+  let i = 1;
+
+  querySnapshot.forEach((docSnap) => {
+    let s = docSnap.data();
+    let id = docSnap.id;
+
     let row = table.insertRow();
 
-    row.dataset.index = index;
-    row.dataset.sem = s.sem;
-    row.dataset.dept = s.dept;
-    row.dataset.shift = s.shift;
-
     row.innerHTML = `
-      <td>${index + 1}</td>
+      <td>${i++}</td>
       <td>${s.name}</td>
       <td>${s.roll}</td>
       <td>${s.sem}</td>
       <td>${s.dept}</td>
       <td>${s.shift}</td>
       <td>
-      <button onclick="editStudent(${index})">Edit</button>
-       <button onclick="deleteStudent(${index})">Delete</button>
+        <button onclick="editStudent('${id}')">Edit</button>
+        <button onclick="deleteStudent('${id}')">Delete</button>
       </td>
     `;
   });
 }
 
+
 // 🔥 FIXED TEACHER LOAD
-function loadTeachers() {
-  let teachers = JSON.parse(localStorage.getItem("teachers")) || [];
+async function loadTeachers() {
+  const { collection, getDocs } = firebaseFns;
+
   let table = document.getElementById("teacherTable");
 
   table.innerHTML = `
@@ -83,17 +88,24 @@ function loadTeachers() {
     </tr>
   `;
 
-  teachers.forEach((t, index) => {
+  const querySnapshot = await getDocs(collection(db, "teachers"));
+
+  let i = 1;
+
+  querySnapshot.forEach((docSnap) => {
+    let t = docSnap.data();
+    let id = docSnap.id;
+
     let row = table.insertRow();
 
     row.innerHTML = `
-      <td>${index + 1}</td>
+      <td>${i++}</td>
       <td>${t.name}</td>
       <td>${t.dept}</td>
       <td>${t.subject}</td>
       <td>
-        <button onclick="editTeacher(${index})">Edit</button>
-        <button onclick="deleteTeacher(${index})">Delete</button>
+        <button onclick="editTeacher('${id}')">Edit</button>
+        <button onclick="deleteTeacher('${id}')">Delete</button>
       </td>
     `;
   });
@@ -114,116 +126,86 @@ function searchStudents() {
     }
   });
 }
-function editStudent(index) {
-  const FIXED_PASS = "12345admin";
+async function editStudent(id) {
+  const { doc, updateDoc } = firebaseFns;
 
   let pass = prompt("Enter admin password:");
-  if (pass !== FIXED_PASS) {
-    alert("Wrong password! Access denied.");
-    return;
-  }
+  if (pass !== "12345admin") return alert("Wrong password!");
 
-  let students = JSON.parse(localStorage.getItem("students")) || [];
-  let s = students[index];
+  let newName = prompt("New Name:");
+  let newRoll = prompt("New Roll:");
+  let newSem = prompt("New Semester:");
+  let newDept = prompt("New Department:");
+  let newShift = prompt("New Shift:");
 
-  let newName = prompt("Edit Name:", s.name);
-  let newRoll = prompt("Edit Roll:", s.roll);
-  let newSem = prompt("Edit Semester:", s.sem);
-  let newDept = prompt("Edit Department:", s.dept);
-  let newShift = prompt("Edit Shift:", s.shift);
+  if (!newName) return;
 
-  // If user cancels
-  if (
-    newName === null ||
-    newRoll === null ||
-    newSem === null ||
-    newDept === null ||
-    newShift === null
-  ) {
-    return;
-  }
-
-  students[index] = {
+  await updateDoc(doc(db, "students", id), {
     name: newName,
     roll: newRoll,
     sem: newSem,
     dept: newDept,
     shift: newShift
-  };
+  });
 
-  localStorage.setItem("students", JSON.stringify(students));
-
-  alert("Student updated successfully!");
+  alert("Updated!");
   loadStudents();
 }
-function deleteStudent(index) {
-  const FIXED_PASS = "12345admin";
+async function deleteStudent(id) {
+  const { deleteDoc, doc } = firebaseFns;
 
   let pass = prompt("Enter admin password:");
-  if (pass !== FIXED_PASS) {
-    alert("Wrong password! Cannot delete.");
-    return;
-  }
+  if (pass !== "12345admin") return alert("Wrong password!");
 
-  let students = JSON.parse(localStorage.getItem("students")) || [];
+  if (!confirm("Delete this student?")) return;
 
-  let confirmDelete = confirm("Are you sure you want to delete this student?");
-  if (!confirmDelete) return;
+  await deleteDoc(doc(db, "students", id));
 
-  students.splice(index, 1); // remove student
-
-  localStorage.setItem("students", JSON.stringify(students));
-
-  alert("Student deleted successfully!");
-  loadStudents(); // refresh table
+  alert("Deleted!");
+  loadStudents();
 }
-function editTeacher(index) {
-  const FIXED_PASS = "12345admin";
+async function editTeacher(id) {
+  const { doc, updateDoc } = firebaseFns;
 
   let pass = prompt("Enter admin password:");
-  if (pass !== FIXED_PASS) {
+  if (pass !== "12345admin") {
     alert("Wrong password!");
     return;
   }
 
-  let teachers = JSON.parse(localStorage.getItem("teachers")) || [];
-  let t = teachers[index];
+  let newName = prompt("New Name:");
+  let newDept = prompt("New Department:");
+  let newSubject = prompt("New Subject:");
 
-  let newName = prompt("Edit Name:", t.name);
-  let newDept = prompt("Edit Department:", t.dept);
-  let newSubject = prompt("Edit Subject:", t.subject);
+  if (!newName || !newDept || !newSubject) return;
 
-  if (newName === null || newDept === null || newSubject === null) return;
-
-  teachers[index] = {
+  await updateDoc(doc(db, "teachers", id), {
     name: newName,
     dept: newDept,
     subject: newSubject
-  };
-
-  localStorage.setItem("teachers", JSON.stringify(teachers));
+  });
 
   alert("Teacher updated!");
   loadTeachers();
 }
-function deleteTeacher(index) {
-  const FIXED_PASS = "12345admin";
+async function deleteTeacher(id) {
+  const { deleteDoc, doc } = firebaseFns;
 
   let pass = prompt("Enter admin password:");
-  if (pass !== FIXED_PASS) {
+  if (pass !== "12345admin") {
     alert("Wrong password!");
     return;
   }
 
-  let confirmDelete = confirm("Are you sure you want to delete this teacher?");
+  let confirmDelete = confirm("Delete this teacher?");
   if (!confirmDelete) return;
 
-  let teachers = JSON.parse(localStorage.getItem("teachers")) || [];
-
-  teachers.splice(index, 1);
-
-  localStorage.setItem("teachers", JSON.stringify(teachers));
+  await deleteDoc(doc(db, "teachers", id));
 
   alert("Teacher deleted!");
   loadTeachers();
 }
+window.onload = function () {
+  loadStudents();
+  loadTeachers();
+};

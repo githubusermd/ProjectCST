@@ -73,7 +73,7 @@
   </div>
 
 </div>
-
+<script src="script1.js"></script>
 <script>
   const FIXED_PASS = "12345admin";
 
@@ -89,44 +89,44 @@
   }
 
   // 🔥 Student save
-  function registerStudent() {
-    let pass = prompt("Enter admin password:");
-    if (pass !== FIXED_PASS) return alert("Wrong password!");
+  async function registerStudent(e) {
+  e.preventDefault();
 
-    let student = {
-      name: sName.value,
-      dept: sDept.value,
-      shift: sShift.value,
-      roll: sRoll.value,
-      sem: sSem.value
-    };
+  const { collection, addDoc } = firebaseFns;
 
-    let students = JSON.parse(localStorage.getItem("students")) || [];
-    students.push(student);
-    localStorage.setItem("students", JSON.stringify(students));
+  await addDoc(collection(db, "students"), {
+    name: sName.value,
+    dept: sDept.value,
+    shift: sShift.value,
+    roll: sRoll.value,
+    sem: sSem.value
+  });
 
-    alert("Student Saved!");
-  }
+  alert("Student saved online!");
+}
 
   // 🔥 Teacher save (FIXED)
-  function registerTeacher() {
-    let pass = prompt("Enter admin password:");
-    if (pass !== FIXED_PASS) return alert("Wrong password!");
+  async function registerTeacher(e) {
+  e.preventDefault();
 
-    let teacher = {
-      name: tName.value,
-      dept: tDept.value,
-      subject: tSub.value
-    };
+  const { collection, addDoc } = firebaseFns;
 
-    let teachers = JSON.parse(localStorage.getItem("teachers")) || [];
-    teachers.push(teacher);
-    localStorage.setItem("teachers", JSON.stringify(teachers));
+  await addDoc(collection(db, "teachers"), {
+    name: tName.value,
+    dept: tDept.value,
+    subject: tSub.value
+  });
 
-    alert("Teacher Saved!");
-  }
+  alert("Teacher saved online!");
+}
 
   toggleForm(); // auto init
+
+
+
+
+
+
 </script>
 
 </body>
