@@ -28,20 +28,22 @@
 
     <h2>2.Department :</h2>
     <select id="sDept" required>
-     <option value="CST">CST</option>
-     <option value="ET">ET</option>
-     <option value="FT">FT</option>
-     <option value="RSC">RSC</option>
-     <option value="ENT">ENT</option>
+      <option value="CST">CST</option>
+      <option value="ET">ET</option>
+      <option value="FT">FT</option>
+      <option value="RSC">RSC</option>
+      <option value="ENT">ENT</option>
     </select><br><br>
+
     <h2>3.Shift:</h2>
     <select id="sShift" required>
       <option value="Morning">Morning</option>
-     <option value="Evening">Evening</option>
+      <option value="Evening">Evening</option>
     </select><br><br>
 
     <h2>4. Roll:</h2>
     <input type="number" id="sRoll" placeholder="Roll" min="1" required><br><br>
+
     <h2>Semister:</h2>
     <select id="sSem" required>
       <option value="1">1st</option>
@@ -62,70 +64,81 @@
     <h3>Teacher Registration</h3>
 
     <input type="text" id="tName" placeholder="Name"><br><br>
-
-
     <input type="text" id="tDept" placeholder="Department"><br><br>
-
-    
     <input type="text" id="tSub" placeholder="Subject"><br><br>
 
     <button type="button" onclick="registerTeacher()">Register Teacher</button>
   </div>
 
 </div>
-<script src="script1.js"></script>
+
+<!-- ✅ Firebase FIRST -->
+<script type="module" src="firebase.js"></script>
+
+<!-- ❌ REMOVE script1.js if not needed -->
+<!-- <script src="script1.js"></script> -->
+
+<!-- ✅ YOUR FIXED SCRIPT -->
 <script>
-  const FIXED_PASS = "12345admin";
+function toggleForm() {
+  let role = document.getElementById("role").value;
 
-  // 🔥 FIX 1: toggle form
-  function toggleForm() {
-    let role = document.getElementById("role").value;
+  document.getElementById("studentForm").style.display =
+    role === "student" ? "block" : "none";
 
-    document.getElementById("studentForm").style.display =
-      role === "student" ? "block" : "none";
-
-    document.getElementById("teacherForm").style.display =
-      role === "teacher" ? "block" : "none";
-  }
-
-  // 🔥 Student save
- window.registerStudent = async function () {
-  const { collection, addDoc } = firebaseFns;
-
-  await addDoc(collection(db, "students"), {
-    name: document.getElementById("sName").value,
-    dept: document.getElementById("sDept").value,
-    shift: document.getElementById("sShift").value,
-    roll: document.getElementById("sRoll").value,
-    sem: document.getElementById("sSem").value
-  });
-
-  alert("Saved!");
-  loadStudents();
-};
-
-  // 🔥 Teacher save (FIXED)
- window.registerTeacher = async function () {
-
-  const { collection, addDoc } = firebaseFns;
-
-  await addDoc(collection(db, "teachers"), {
-    name: document.getElementById("tName").value,
-    dept: document.getElementById("tDept").value,
-    subject: document.getElementById("tSub").value
-  });
-
-  alert("Teacher saved!");
-  loadTeachers();
+  document.getElementById("teacherForm").style.display =
+    role === "teacher" ? "block" : "none";
 }
 
-  toggleForm(); // auto init
+// 🔥 STUDENT
+window.registerStudent = async function () {
+  if (!window.firebaseReady) {
+    alert("Firebase loading... try again");
+    return;
+  }
 
+  const { collection, addDoc } = firebaseFns;
 
+  try {
+    await addDoc(collection(db, "students"), {
+      name: sName.value,
+      dept: sDept.value,
+      shift: sShift.value,
+      roll: sRoll.value,
+      sem: sSem.value
+    });
 
+    alert("Student saved ✅");
+  } catch (err) {
+    console.error(err);
+    alert("Error saving student ❌");
+  }
+};
 
+// 🔥 TEACHER
+window.registerTeacher = async function () {
+  if (!window.firebaseReady) {
+    alert("Firebase loading... try again");
+    return;
+  }
 
+  const { collection, addDoc } = firebaseFns;
 
+  try {
+    await addDoc(collection(db, "teachers"), {
+      name: tName.value,
+      dept: tDept.value,
+      subject: tSub.value
+    });
+
+    alert("Teacher saved ✅");
+  } catch (err) {
+    console.error(err);
+    alert("Error saving teacher ❌");
+  }
+};
+
+toggleForm();
 </script>
 
 </body>
