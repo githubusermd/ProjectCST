@@ -92,50 +92,40 @@ function toggleForm() {
 
 // 🔥 STUDENT
 window.registerStudent = async function () {
-  if (!window.firebaseReady) {
-    alert("Firebase loading... try again");
-    return;
+
+  while (!window.firebaseFns) {
+    await new Promise(r => setTimeout(r, 100));
   }
 
   const { collection, addDoc } = firebaseFns;
 
-  try {
-    await addDoc(collection(db, "students"), {
-      name: sName.value,
-      dept: sDept.value,
-      shift: sShift.value,
-      roll: sRoll.value,
-      sem: sSem.value
-    });
+  await addDoc(collection(db, "students"), {
+    name: sName.value,
+    dept: sDept.value,
+    shift: sShift.value,
+    roll: sRoll.value,
+    sem: sSem.value
+  });
 
-    alert("Student saved ✅");
-  } catch (err) {
-    console.error(err);
-    alert("Error saving student ❌");
-  }
+  alert("Student saved ✅");
 };
 
 // 🔥 TEACHER
 window.registerTeacher = async function () {
-  if (!window.firebaseReady) {
-    alert("Firebase loading... try again");
-    return;
+
+  while (!window.firebaseFns) {
+    await new Promise(r => setTimeout(r, 100));
   }
 
   const { collection, addDoc } = firebaseFns;
 
-  try {
-    await addDoc(collection(db, "teachers"), {
-      name: tName.value,
-      dept: tDept.value,
-      subject: tSub.value
-    });
+  await addDoc(collection(db, "teachers"), {
+    name: tName.value,
+    dept: tDept.value,
+    subject: tSub.value
+  });
 
-    alert("Teacher saved ✅");
-  } catch (err) {
-    console.error(err);
-    alert("Error saving teacher ❌");
-  }
+  alert("Teacher saved ✅");
 };
 
 toggleForm();
