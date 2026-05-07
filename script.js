@@ -52,18 +52,23 @@ async function loadStudents() {
 
     let row = table.insertRow();
 
-    row.innerHTML = `
-      <td>${i++}</td>
-      <td>${s.name}</td>
-      <td>${s.roll}</td>
-      <td>${s.sem}</td>
-      <td>${s.dept}</td>
-      <td>${s.shift}</td>
-      <td>
-        <button onclick="editStudent('${id}')">Edit</button>
-        <button onclick="deleteStudent('${id}')">Delete</button>
-      </td>
-    `;
+// 🔥 IMPORTANT
+row.setAttribute("data-sem", s.sem);
+row.setAttribute("data-dept", s.dept);
+row.setAttribute("data-shift", s.shift);
+
+row.innerHTML = `
+  <td>${i++}</td>
+  <td>${s.name}</td>
+  <td>${s.roll}</td>
+  <td>${s.sem}</td>
+  <td>${s.dept}</td>
+  <td>${s.shift}</td>
+  <td>
+    <button onclick="editStudent('${id}')">Edit</button>
+    <button onclick="deleteStudent('${id}')">Delete</button>
+  </td>
+`;
   });
 }
 

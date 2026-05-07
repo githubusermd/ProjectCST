@@ -90,42 +90,58 @@ function toggleForm() {
     role === "teacher" ? "block" : "none";
 }
 
-// 🔥 STUDENT
-window.registerStudent = async function () {
+ window.registerStudent = async function () {
 
-  while (!window.firebaseFns) {
-    await new Promise(r => setTimeout(r, 100));
+  // 🔐 PASSWORD CHECK
+  let pass = prompt("Enter admin password:");
+
+  if (pass !== "12345admin") {
+    alert("Wrong password!");
+    return;
+  }
+
+  if (!window.firebaseReady) {
+    alert("Firebase loading...");
+    return;
   }
 
   const { collection, addDoc } = firebaseFns;
 
   await addDoc(collection(db, "students"), {
-    name: sName.value,
-    dept: sDept.value,
-    shift: sShift.value,
-    roll: sRoll.value,
-    sem: sSem.value
+    name: document.getElementById("sName").value,
+    dept: document.getElementById("sDept").value,
+    shift: document.getElementById("sShift").value,
+    roll: document.getElementById("sRoll").value,
+    sem: document.getElementById("sSem").value
   });
 
-  alert("Student saved ✅");
+  alert("Student saved successfully ✅");
 };
 
-// 🔥 TEACHER
-window.registerTeacher = async function () {
+ window.registerTeacher = async function () {
 
-  while (!window.firebaseFns) {
-    await new Promise(r => setTimeout(r, 100));
+  // 🔐 PASSWORD CHECK
+  let pass = prompt("Enter admin password:");
+
+  if (pass !== "12345admin") {
+    alert("Wrong password!");
+    return;
+  }
+
+  if (!window.firebaseReady) {
+    alert("Firebase loading...");
+    return;
   }
 
   const { collection, addDoc } = firebaseFns;
 
   await addDoc(collection(db, "teachers"), {
-    name: tName.value,
-    dept: tDept.value,
-    subject: tSub.value
+    name: document.getElementById("tName").value,
+    dept: document.getElementById("tDept").value,
+    subject: document.getElementById("tSub").value
   });
 
-  alert("Teacher saved ✅");
+  alert("Teacher saved successfully ✅");
 };
 
 toggleForm();
