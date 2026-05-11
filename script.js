@@ -84,7 +84,7 @@ async function loadTeachers() {
       <th>SL</th>
       <th>Name</th>
       <th>Department</th>
-      <th>Subject</th>
+      <th>Number</th>
       <th>Action</th>
     </tr>
   `;
@@ -103,7 +103,7 @@ async function loadTeachers() {
       <td>${i++}</td>
       <td>${t.name}</td>
       <td>${t.dept}</td>
-      <td>${t.subject}</td>
+      <td>${t.number}</td>
       <td>
         <button onclick="editTeacher('${id}')">Edit</button>
         <button onclick="deleteTeacher('${id}')">Delete</button>
@@ -166,9 +166,11 @@ async function deleteStudent(id) {
   loadStudents();
 }
 async function editTeacher(id) {
+
   const { doc, updateDoc } = firebaseFns;
 
   let pass = prompt("Enter admin password:");
+
   if (pass !== "12345admin") {
     alert("Wrong password!");
     return;
@@ -176,17 +178,18 @@ async function editTeacher(id) {
 
   let newName = prompt("New Name:");
   let newDept = prompt("New Department:");
-  let newSubject = prompt("New Subject:");
+  let newNumber = prompt("New Number:");
 
-  if (!newName || !newDept || !newSubject) return;
+  if (!newName || !newDept || !newNumber) return;
 
   await updateDoc(doc(db, "teachers", id), {
     name: newName,
     dept: newDept,
-    subject: newSubject
+    number: newNumber
   });
 
   alert("Teacher updated!");
+
   loadTeachers();
 }
 async function deleteTeacher(id) {

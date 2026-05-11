@@ -65,7 +65,7 @@
 
     <input type="text" id="tName" placeholder="Name"><br><br>
     <input type="text" id="tDept" placeholder="Department"><br><br>
-    <input type="text" id="tSub" placeholder="Subject"><br><br>
+    <input type="text" id="tNumber" placeholder="Phone Number"><br><br>
 
     <button type="button" onclick="registerTeacher()">Register Teacher</button>
   </div>
@@ -138,7 +138,7 @@ function toggleForm() {
   await addDoc(collection(db, "teachers"), {
     name: document.getElementById("tName").value,
     dept: document.getElementById("tDept").value,
-    subject: document.getElementById("tSub").value
+    number: document.getElementById("tNumber").value
   });
 
   alert("Teacher saved successfully ✅");
